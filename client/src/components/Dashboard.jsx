@@ -5,12 +5,12 @@ import Logout from './Logout';
 
 const Dashboard = () => {
   return (
-    <div className="dashboard-container">
+    <div className="container-sm mt-4">
       <h3>ToDoList:</h3>
       <ToDoList />
 
-      <div className="logout-link">
-        <NavLink to="/logout" className="logout-button">
+      <div className="mt-3">
+        <NavLink to="/logout" className="btn btn-primary">
           Logout
         </NavLink>
       </div>

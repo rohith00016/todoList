@@ -7,7 +7,7 @@ import { useAuth } from '../contextApi/AuthContext';
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
-  
+
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -84,38 +84,41 @@ const Login = () => {
   return (
     <>
       <NavBar />
-      <div className="login-container">
+      <div className="container mt-4">
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Username:</label>
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label">
+              Username:
+            </label>
             <input
               type="text"
               name="username"
               autoComplete="current-username"
               value={formData.username}
               onChange={handleChange}
-              className="login-input"
+              className={`form-control ${errors.username ? 'is-invalid' : ''}`}
             />
-            <span className="error-message">{errors.username}</span>
+            {errors.username && <div className="invalid-feedback">{errors.username}</div>}
           </div>
-          <div className="form-group">
-            <label>Password:</label>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Password:
+            </label>
             <input
               type="password"
               name="password"
               autoComplete="current-password"
               value={formData.password}
               onChange={handleChange}
-              className="login-input"
+              className={`form-control ${errors.password ? 'is-invalid' : ''}`}
             />
-            <span className="error-message">{errors.password}</span>
-            {errors.server && <div className="error-message">{errors.server}</div>}
+            {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+            {errors.server && <div className="invalid-feedback">{errors.server}</div>}
           </div>
-          <button type="submit" className="login-button">
+          <button type="submit" className="btn btn-primary">
             Login
           </button>
-          
         </form>
       </div>
     </>
