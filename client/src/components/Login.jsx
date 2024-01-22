@@ -58,8 +58,7 @@ const Login = () => {
         const response = await axios.post('http://localhost:3000/api/users/login', formData);
 
         if (response.data && response.data.token && response.data.userId) {
-          localStorage.setItem('token', response.data.token);
-          login(response.data.userId);
+          login(response.data.userId, response.data.token);
           navigate(`/dashboard/${response.data.userId}`, {
             state: { user: response.data },
           });

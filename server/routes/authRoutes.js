@@ -6,19 +6,16 @@ const User = require('../models/User');
 const router = express.Router();
 const saltRounds = 10;
 
-
 router.post('/signup', async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       console.error('Username already exists:', username);
       return res.status(400).json({ error: 'Username already exists' });
     }
 
-    // If the user does not exist, proceed with user registration
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     const user = new User({ username, password: hashedPassword });
     await user.save();
@@ -28,7 +25,6 @@ router.post('/signup', async (req, res) => {
     res.status(500).json({ error: 'Error registering user' });
   }
 });
-
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
@@ -42,11 +38,11 @@ router.post('/login', async (req, res) => {
 
     const match = await bcrypt.compare(password, user.password);
     if (match) {
-   
-      const token = jwt.sign({ userId: user._id }, 'yourSecretKey', { expiresIn: '1h' });
-      console.log(token);
+      const secretKey = process.env.JWT_SECRET || 'yourSecretKey';
+      const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
 
       console.log('Login successful:', username);
+      console.log(token); 
       return res.status(200).json({ message: 'Login successful', token, userId: user._id });
     } else {
       console.error('Incorrect password for user:', username);
@@ -58,12 +54,10 @@ router.post('/login', async (req, res) => {
   }
 });
 
-
 router.post('/logout', (req, res) => {
-  
-  req.session.destroy();
+  // Remove this line if you are not using sessions
+  // req.session.destroy();
   res.json({ message: 'Logout successful' });
 });
-
 
 module.exports = router;

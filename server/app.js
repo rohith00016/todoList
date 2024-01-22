@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 connectDB();
 
 app.use('/api/users', userRoutes);
-app.use('/tasks', taskRoutes);
+app.use('/api/tasks', taskRoutes);
 
 
 app.listen(PORT, () => {
